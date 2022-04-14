@@ -22,8 +22,14 @@ if not github_event_path:
     exit(1)
 
 print("AQUI", github_event_path)
-pull_request_number = 16
-# pull_request_number = json.loads(github_event_path)["pull_request"]["number"]
+pull_request_number = 0
+pull_request_number_bla = ''
+
+with open(github_event_path, 'r') as event_file:
+    pull_request_number_bla = json.load(event_file)
+
+print(pull_request_number_bla)
+
 api_url = f"https://api.github.com/repos/{github_repository}/pulls/{pull_request_number}/reviews?per_page=100"
 headers = {
     "Authorization": f"token {github_token}",
