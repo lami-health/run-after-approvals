@@ -26,7 +26,7 @@ pull_request_number = 0
 pull_request_number_bla = ''
 
 with open(github_event_path, 'r') as event_file:
-    pull_request_number_bla = json.load(event_file)
+    pull_request_number_bla = json.load(event_file)['pull_request']['number']
 
 print(pull_request_number_bla)
 
