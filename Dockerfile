@@ -1,4 +1,4 @@
-FROM alpine:3.10.3
+FROM python:3-slim
 
 LABEL "com.github.actions.name"="Run after approvals"
 LABEL "com.github.actions.description"="Only permit the PR running if has a certain number of approvals"
@@ -10,7 +10,7 @@ LABEL repository="http://github.com/lami-health/run-after-approvals"
 LABEL homepage="http://github.com/lami-health/run-after-approvals"
 LABEL maintainer="Lami Team <tech@lamimed.it>"
 
-RUN apk add --no-cache bash curl jq
+RUN pip install requests
 
-ADD entrypoint.sh /entrypoint.sh
-ENTRYPOINT ["/entrypoint.sh"]
+ADD entrypoint.py /entrypoint.py
+ENTRYPOINT ["python", "/entrypoint.py"]
