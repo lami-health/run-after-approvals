@@ -1,14 +1,14 @@
 FROM alpine:3.10.3
 
-LABEL "com.github.actions.name"="Label approved pull requests"
-LABEL "com.github.actions.description"="Auto-label pull requests that have a specified number of approvals"
+LABEL "com.github.actions.name"="Run after approvals"
+LABEL "com.github.actions.description"="Only permit the PR running if has a certain number of approvals"
 LABEL "com.github.actions.icon"="tag"
 LABEL "com.github.actions.color"="gray-dark"
 
-LABEL version="1.0.0"
-LABEL repository="http://github.com/pullreminders/label-when-approved-action"
-LABEL homepage="http://github.com/pullreminders/label-when-approved-action"
-LABEL maintainer="Abi Noda <abi@pullreminders.com>"
+LABEL version="0.0.1"
+LABEL repository="http://github.com/lami-health/run-after-approvals"
+LABEL homepage="http://github.com/lami-health/run-after-approvals"
+LABEL maintainer="Lami Team <tech@lamimed.it>"
 
 RUN apk add --no-cache bash curl jq
 
