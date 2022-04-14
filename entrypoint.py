@@ -21,14 +21,10 @@ if not github_event_path:
     print("Set the GITHUB_EVENT_PATH env variable")
     exit(1)
 
-print("AQUI", github_event_path)
 pull_request_number = 0
-pull_request_number_bla = ''
 
-with open(github_event_path, 'r') as event_file:
-    pull_request_number_bla = json.load(event_file)['pull_request']['number']
-
-print(pull_request_number_bla)
+with open(github_event_path, "r") as event_file:
+    pull_request_number = int(json.load(event_file)["pull_request"]["number"])
 
 api_url = f"https://api.github.com/repos/{github_repository}/pulls/{pull_request_number}/reviews?per_page=100"
 headers = {
