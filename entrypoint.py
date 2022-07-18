@@ -37,11 +37,12 @@ def make_request():
     response = requests.get(api_url, headers=headers).json()
     acc = 0
     for res in response:
-        if res["state"] != "APPROVED":
+        if res["state"] == "CHANGES_REQUESTED":
             acc = 0
             continue
 
-        acc = acc + 1
+        if res["state"] == "APPROVED":
+            acc = acc + 1
 
     label = "APPROVED" if acc >= approvals else "DENIED"
     print(f"{acc}/{approvals} Approvals - {label}")
