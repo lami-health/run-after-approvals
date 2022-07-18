@@ -4,10 +4,12 @@ import os
 import json
 import requests
 
-approvals = int(os.getenv("APPROVALS")) or 2
+approvals = int(os.getenv("APPROVALS"), 2)
 github_token = os.getenv("GITHUB_TOKEN")
 github_repository = os.getenv("GITHUB_REPOSITORY")
 github_event_path = os.getenv("GITHUB_EVENT_PATH")
+# Status that if returned by github api, will reset the approvals accumulator
+status_to_ignore = os.getenv("STATUS_TO_IGNORE", "CHANGES_REQUESTED,DISMISSED").split(",")
 
 if not github_token:
     print("Set the GITHUB_TOKEN env variable")
@@ -37,7 +39,7 @@ def make_request():
     response = requests.get(api_url, headers=headers).json()
     acc = 0
     for res in response:
-        if res["state"] == "CHANGES_REQUESTED":
+        if res["state"] in status_to_ignore:
             acc = 0
             continue
 
