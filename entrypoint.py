@@ -4,7 +4,7 @@ import os
 import json
 import requests
 
-approvals = int(os.getenv("APPROVALS"), 2)
+approvals = int(os.getenv("APPROVALS", 2))
 github_token = os.getenv("GITHUB_TOKEN")
 github_repository = os.getenv("GITHUB_REPOSITORY")
 github_event_path = os.getenv("GITHUB_EVENT_PATH")
