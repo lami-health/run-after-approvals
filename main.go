@@ -2,29 +2,30 @@ package main
 
 import (
 	"fmt"
-	"github.com/lami-health/run-after-approvals/env"
-	"github.com/lami-health/run-after-approvals/github"
-	"github.com/lami-health/run-after-approvals/models"
 	"log"
 	"net/http"
 	"os"
 	"strconv"
 	"time"
+
+	"github.com/lami-health/run-after-approvals/env"
+	"github.com/lami-health/run-after-approvals/github"
+	"github.com/lami-health/run-after-approvals/models"
 )
 
 var GH_USER string = env.Getenv("GITHUB_USER", "lami-health")
-var GH_REPO string = env.Getenv("GITHUB_REPOSITORY", "website")
-var GH_PR_NUMBER string = env.Getenv("GITHUB_PULL_REQUEST", "720")
+var GH_REPO string = env.Getenv("GITHUB_REPOSITORY", "")
+var GH_PR_NUMBER string = env.Getenv("GITHUB_PULL_REQUEST", "")
 var APPROVALS string = env.Getenv("APPROVALS", "2")
+var TOKEN string = env.Getenv("GITHUB_TOKEN", "")
 
 var client = &http.Client{Timeout: 10 * time.Second}
 
 func main() {
 	var reviews []models.Review
-	token := ""
 	url := fmt.Sprintf("https://api.github.com/repos/%s/%s/pulls/%s/reviews", GH_USER, GH_REPO, GH_PR_NUMBER)
 
-	if err := github.GetReviews(client, url, token, &reviews); err != nil {
+	if err := github.GetReviews(client, url, TOKEN, &reviews); err != nil {
 		log.Fatalf("Could not get the github reviews for specified repo: %v", err)
 	}
 
