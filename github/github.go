@@ -3,9 +3,10 @@ package github
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/lami-health/run-after-approvals/models"
 	"io/ioutil"
 	"net/http"
+
+	"github.com/lami-health/run-after-approvals/models"
 )
 
 // GetReviews perform an GET request to github API and return the reviews in an array objects, the return is unmarshalled into the target struct provided by the user.
