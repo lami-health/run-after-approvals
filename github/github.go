@@ -29,7 +29,7 @@ func GetReviews(client *http.Client, url, token string, target interface{}) erro
 	return json.Unmarshal(body, target)
 }
 
-func CalculateValidApprovals(reviews []models.Review) (int, string) {
+func CalculateValidApprovals(reviews []models.Review) int {
 	acc := 0
 	for _, review := range reviews {
 		if review.State == "CHANGES_REQUESTED" {
@@ -43,8 +43,8 @@ func CalculateValidApprovals(reviews []models.Review) (int, string) {
 	}
 
 	if acc >= 0 {
-		return acc, "APPROVED"
+		return acc
 	}
 
-	return acc, "DENIED"
+	return acc
 }
