@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"os"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/lami-health/run-after-approvals/env"
@@ -13,7 +13,6 @@ import (
 	"github.com/lami-health/run-after-approvals/models"
 )
 
-var GH_USER string = env.Getenv("GITHUB_USER", "lami-health")
 var GH_REPO string = env.Getenv("GITHUB_REPOSITORY", "")
 var GH_PR_NUMBER string = env.Getenv("GITHUB_PULL_REQUEST", "")
 var APPROVALS string = env.Getenv("APPROVALS", "2")
@@ -23,15 +22,16 @@ var client = &http.Client{Timeout: 10 * time.Second}
 
 func main() {
 	var reviews []models.Review
-	url := fmt.Sprintf("https://api.github.com/repos/%s/%s/pulls/%s/reviews", GH_USER, GH_REPO, GH_PR_NUMBER)
+	user := strings.Split(GH_REPO, "/")[0]
+	repo := strings.Split(GH_REPO, "/")[1]
+
+	url := fmt.Sprintf("https://api.github.com/repos/%s/%s/pulls/%s/reviews", user, repo, GH_PR_NUMBER)
 
 	if err := github.GetReviews(client, url, TOKEN, &reviews); err != nil {
 		log.Fatalf("Could not get the github reviews for specified repo: %v", err)
 	}
 
-	acc, label := github.CalculateValidApprovals(reviews)
-
-	fmt.Printf("%d/%s Approvals - %s", acc, APPROVALS, label)
+	acc := github.CalculateValidApprovals(reviews)
 
 	approvals, err := strconv.Atoi(APPROVALS)
 
@@ -39,7 +39,20 @@ func main() {
 		log.Fatalf("Could not convert APPROVALS from string to int: %v", err)
 	}
 
-	if acc < approvals {
-		os.Exit(1)
+	if acc >= approvals {
+		fmt.Printf("status=approved")
+		setTag("approved")
+	} else {
+		fmt.Printf("status=denied")
+		setTag("denied")
 	}
+}
+
+func setTag(value string) {
+	fmt.Printf(`::set-output name=status::%s`, value)
+	fmt.Print("\n")
+	// TODO: Not sure it's needed twice
+	// Ref: https://stackoverflow.com/questions/71357973/github-actions-set-two-output-names-from-custom-action-in-golang-code
+	fmt.Printf(`::set-output name=status::%s`, value)
+	fmt.Print("\n")
 }

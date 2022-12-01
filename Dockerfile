@@ -10,5 +10,5 @@ LABEL repository="http://github.com/lami-health/run-after-approvals"
 LABEL homepage="http://github.com/lami-health/run-after-approvals"
 LABEL maintainer="Lami Team <tech@lamimed.it>"
 
-ADD ./run-after-approvals /run-after-approvals
-ENTRYPOINT ["./run-after-approvals"]
+COPY ./run-after-approvals /run-after-approvals
+ENTRYPOINT ["/run-after-approvals"]
