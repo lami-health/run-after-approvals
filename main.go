@@ -15,6 +15,7 @@ import (
 
 var GH_REPO string = env.Getenv("GITHUB_REPOSITORY", "")
 var GH_PR_NUMBER string = env.Getenv("GITHUB_PULL_REQUEST", "")
+var GH_EVENT_PATH string = env.Getenv("GITHUB_EVENT_PATH", "")
 var APPROVALS string = env.Getenv("APPROVALS", "2")
 var TOKEN string = env.Getenv("GITHUB_TOKEN", "")
 
@@ -25,7 +26,7 @@ func main() {
 	user := strings.Split(GH_REPO, "/")[0]
 	repo := strings.Split(GH_REPO, "/")[1]
 
-	fmt.Printf("TESTE -> %s", GH_PR_NUMBER)
+	fmt.Printf("TESTE -> %s", GH_EVENT_PATH)
 
 	url := fmt.Sprintf("https://api.github.com/repos/%s/%s/pulls/%s/reviews", user, repo, GH_PR_NUMBER)
 
