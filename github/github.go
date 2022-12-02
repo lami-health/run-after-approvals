@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"strconv"
 
 	"github.com/lami-health/run-after-approvals/models"
 )
@@ -31,11 +32,11 @@ func GetReviews(client *http.Client, url, token string, target interface{}) erro
 }
 
 type githubPullRequest struct {
-	number int `json:"number"`
+	Number int `json:"number"`
 }
 
 type githubEventPath struct {
-	pull_request githubPullRequest `json:"pull_request"`
+	PullRequest githubPullRequest `json:"pull_request"`
 }
 
 // GetPullRequestNumber read github json file and return pull_request number from it.
@@ -51,7 +52,7 @@ func GetPullRequestNumber(path string) string {
 		log.Fatal("Error while parsing github file on path: %s -> %v", path, err)
 	}
 
-	return string(payload.pull_request.number)
+	return strconv.Itoa(payload.PullRequest.Number)
 }
 
 func CalculateValidApprovals(reviews []models.Review) int {
