@@ -11,6 +11,7 @@ import (
 
 // GetReviews perform an GET request to github API and return the reviews in an array objects, the return is unmarshalled into the target struct provided by the user.
 func GetReviews(client *http.Client, url, token string, target interface{}) error {
+	fmt.Printf("TESTE -> %s", url)
 	var err error
 	req, err := http.NewRequest("GET", url, nil)
 	req.Header.Set("Accept", "application/vnd.github.v3+json")
