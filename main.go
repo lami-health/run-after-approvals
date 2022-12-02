@@ -25,6 +25,8 @@ func main() {
 	user := strings.Split(GH_REPO, "/")[0]
 	repo := strings.Split(GH_REPO, "/")[1]
 
+	fmt.Printf("%s", GH_PR_NUMBER)
+
 	url := fmt.Sprintf("https://api.github.com/repos/%s/%s/pulls/%s/reviews", user, repo, GH_PR_NUMBER)
 
 	if err := github.GetReviews(client, url, TOKEN, &reviews); err != nil {
