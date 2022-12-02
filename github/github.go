@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
 
 	"github.com/lami-health/run-after-approvals/models"
@@ -27,6 +28,30 @@ func GetReviews(client *http.Client, url, token string, target interface{}) erro
 	}
 
 	return json.Unmarshal(body, target)
+}
+
+type githubPullRequest struct {
+	number int `json:"number"`
+}
+
+type githubEventPath struct {
+	pull_request githubPullRequest `json:"pull_request"`
+}
+
+// GetPullRequestNumber read github json file and return pull_request number from it.
+func GetPullRequestNumber(path string) string {
+	content, err := ioutil.ReadFile(path)
+	if err != nil {
+		log.Fatal("Error while opening github file on path: %s -> %v", path, err)
+	}
+
+	var payload githubEventPath
+	err = json.Unmarshal(content, &payload)
+	if err != nil {
+		log.Fatal("Error while parsing github file on path: %s -> %v", path, err)
+	}
+
+	return string(payload.pull_request.number)
 }
 
 func CalculateValidApprovals(reviews []models.Review) int {
