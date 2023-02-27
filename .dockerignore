@@ -1,5 +1,3 @@
-# ignore all files by default
-*
 # include required files with an exception
 !entrypoint.py
 !LICENSE
