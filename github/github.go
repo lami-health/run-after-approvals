@@ -58,7 +58,7 @@ func GetPullRequestNumber(path string) string {
 func CalculateValidApprovals(reviews []models.Review) int {
 	acc := 0
 	for _, review := range reviews {
-		if review.State == "CHANGES_REQUESTED" {
+		if review.State != "APPROVED" {
 			acc = 0
 			continue
 		}
