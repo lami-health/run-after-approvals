@@ -5,7 +5,7 @@ LABEL "com.github.actions.description"="Only permit the PR running if has a cert
 LABEL "com.github.actions.icon"="tag"
 LABEL "com.github.actions.color"="gray-dark"
 
-LABEL version="0.0.1"
+LABEL version="0.0.2"
 LABEL repository="http://github.com/lami-health/run-after-approvals"
 LABEL homepage="http://github.com/lami-health/run-after-approvals"
 LABEL maintainer="Lami Team <tech@lamimed.it>"

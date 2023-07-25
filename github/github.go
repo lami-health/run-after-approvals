@@ -43,13 +43,13 @@ type githubEventPath struct {
 func GetPullRequestNumber(path string) string {
 	content, err := ioutil.ReadFile(path)
 	if err != nil {
-		log.Fatal("Error while opening github file on path: %s -> %v", path, err)
+		log.Fatalf("Error while opening github file on path: %s -> %v", path, err)
 	}
 
 	var payload githubEventPath
 	err = json.Unmarshal(content, &payload)
 	if err != nil {
-		log.Fatal("Error while parsing github file on path: %s -> %v", path, err)
+		log.Fatalf("Error while parsing github file on path: %s -> %v", path, err)
 	}
 
 	return strconv.Itoa(payload.PullRequest.Number)
