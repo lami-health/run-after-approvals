@@ -28,6 +28,7 @@ func GetReviews(client *http.Client, url, token string, target interface{}) erro
 		return err
 	}
 
+	fmt.Println(url)
 	fmt.Println(string(body))
 
 	return json.Unmarshal(body, target)
