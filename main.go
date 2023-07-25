@@ -26,9 +26,7 @@ func main() {
 	user := strings.Split(GH_REPO, "/")[0]
 	repo := strings.Split(GH_REPO, "/")[1]
 
-	pr_number := github.GetPullRequestNumber(GH_EVENT_PATH)
-
-	url := fmt.Sprintf("https://api.github.com/repos/%s/%s/pulls/%s/reviews", user, repo, pr_number)
+	url := fmt.Sprintf("https://api.github.com/repos/%s/%s/pulls/%s/reviews", user, repo, GH_PR_NUMBER)
 
 	if err := github.GetReviews(client, url, TOKEN, &reviews); err != nil {
 		log.Fatalf("Could not get the github reviews for specified repo: %v", err)
